@@ -15,4 +15,4 @@ jobs:
       
 
       - name: 'Testing printing'
-        run: echo fatma
+        run: ls
