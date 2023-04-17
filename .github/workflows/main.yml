@@ -10,12 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 'Testing printing before'
-        run: ls
-      - uses: actions/checkout@v3  
+
+      - uses: actions/checkout@v3 
+
       - name: 'login to docker hub'
         run: docker login --username ${{secrets.username}} --password ${{secrets.password}}
+
       - name: 'building docker image'
-        run: docker build -t ${{secrets.username}}/laravel1  
+        run: docker build -t ${{secrets.username}}/laravel1 .
+          
       - name: 'pushing docker hub'
         run: docker push ${{secrets.username}}/laravel1  
