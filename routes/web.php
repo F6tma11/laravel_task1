@@ -13,7 +13,7 @@ use App\Models\Student;
 |
 */
 
-Route::get('/students', function () {
+Route::get('/', function () {
     $arr=[
         'students' => Student::all()
     ];
