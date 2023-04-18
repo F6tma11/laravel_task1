@@ -17,7 +17,7 @@ jobs:
         run: docker login --username ${{secrets.username}} --password ${{secrets.password}}
 
       - name: 'building docker image'
-        run: docker build -t ${{secrets.username}}/laravel1 .
+        run: docker build -t ${{secrets.username}}/laravel2 .
           
       - name: 'pushing docker hub'
-        run: docker push ${{secrets.username}}/laravel1  
+        run: docker push ${{secrets.username}}/laravel2  
