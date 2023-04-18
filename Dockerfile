@@ -1,23 +1,14 @@
-FROM php:7.2.10-apache-stretch
+FROM php:7.2-cli
 
-RUN apt-get update -yqq && \
-    apt-get install -y apt-utils zip unzip && \
-    apt-get install -y nano && \
-    apt-get install -y libzip-dev libpq-dev && \
-    a2enmod rewrite && \
-    docker-php-ext-install pdo_mysql && \
-    docker-php-ext-configure zip --with-libzip && \
-    docker-php-ext-install zip && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update -y && apt-get install -y libmcrypt-dev
 
-RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN docker-php-ext-install pdo mbstring
 
-WORKDIR /var/www
-RUN chown -hR www-data .
+WORKDIR /app
+COPY . /app
 
-COPY server/default.conf /etc/apache2/sites-enabled/000-default.conf
-COPY backend/. /var/www/
+RUN composer install
 
-CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
-
-EXPOSE 80
+EXPOSE 8000
+CMD php artisan serve --host=0.0.0.0 --port=8000
